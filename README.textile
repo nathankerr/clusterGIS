@@ -5,7 +5,7 @@ By Nathan Kerr
 h2. Dependencies
 
 * MPI - Uses MPI-IO for parallel file read/write
-* "GEOS":http://redcloth.org/textile library - Provides geometric functionality
+* "GEOS":http://trac.osgeo.org/geos/ library - Provides geometric functionality
 
 h2. License
 
