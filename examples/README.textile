@@ -1,0 +1,31 @@
+h1. clusterGIS Examples
+
+Examples of using clusterGIS
+
+h2. Create
+
+Adds a new record to the loaded dataset and writes it to disk.
+
+h2. Read
+
+Loads a dataset from disk and writes it to another location.
+
+h2. Update
+
+Updates a record contained in the dataset, then writes the result to disk.
+
+h2. Delete
+
+Deletes a record from the loaded dataset, then writes the result to disk.
+
+h2. Filter
+
+Keeps only the records that intersect with a defined region.
+
+h2. Nearest
+
+Locates the nearest parcel of land with a matching land use code for each employer.
+
+h2. Chained
+
+Filters the dataset, then runs the nearest algorithm on the result.
