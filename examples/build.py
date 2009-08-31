@@ -6,13 +6,13 @@ programs = ['create', 'read', 'update', 'delete', 'filter', 'nearest']
 
 def build():
 	for program in programs:
-		sources = [program, 'clustergis']
+		sources = [program, '../src/clustergis']
 		compile(sources)
 		link(sources, program)
 
 def compile(sources):
 	for source in sources:
-		run('mpicc -Wall -O3 `geos-config --cflags` -c ' + source + '.c')
+		run('mpicc -Wall -O3 -I../src/ `geos-config --cflags` -c ' + source + '.c -o ' + source + '.o')
 
 def link(sources, program='a.out'):
 	objects = ' '.join(s + '.o' for s in sources)
