@@ -2,7 +2,7 @@
 
 from fabricate import *
 
-programs = ['create', 'read', 'update', 'delete', 'filter', 'nearest']
+programs = ['create', 'read', 'update', 'delete', 'filter', 'nearest', 'chained']
 
 def build():
 	for program in programs:

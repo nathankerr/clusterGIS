@@ -1,0 +1,10 @@
+*.o
+.deps
+create
+read
+update
+delete
+filter
+nearest
+chained
+*.pyc
