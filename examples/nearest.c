@@ -8,7 +8,7 @@
 
 /* reduce function for min distances */
 void min_distance_function (double *invec, double* outvec, int *len, MPI_Datatype *datatype) {
-	if(*len != 2 || *datatype != MPI_DOUBLE) {
+	if(len == NULL || datatype == NULL) {
 		MPI_Abort(MPI_COMM_WORLD, 2);
 	}
 

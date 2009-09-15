@@ -8,7 +8,7 @@
 
 /* reduce function for min distances */
 void min_distance_function (double *invec, double* outvec, int *len, MPI_Datatype *datatype) {
-	if(*len != 2 || *datatype != MPI_DOUBLE) {
+	if(len == NULL || datatype == NULL) {
 		MPI_Abort(MPI_COMM_WORLD, 2);
 	}
 	/* outvec[i] = invec[i] op outvec[i] */
@@ -39,10 +39,7 @@ int main(int argc, char** argv) {
 	clusterGIS_record* output_record = NULL;
 	int start = 0;
 	char* output_filename;
-	clusterGIS_record* record;
 	clusterGIS_record** head;
-	GEOSGeometry* box;
-	GEOSWKTReader* reader;
 
 	clusterGIS_Init(&argc, &argv);
 	MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
@@ -65,45 +62,17 @@ int main(int argc, char** argv) {
 	parcels = clusterGIS_Load_csv_distributed(parcels_comm, parcels_filename);
 	clusterGIS_Create_wkt_geometries(parcels, PARCELS_GEOMETRY_COLUMN);
 
-	/* Filter both the datasets */
-	reader = GEOSWKTReader_create();
-	box = GEOSWKTReader_read(reader, "POLYGON((-112.0859375 33.4349975585938,-112.0859375 33.4675445556641,-112.059799194336 33.4675445556641,-112.059799194336 33.4349975585938,-112.0859375 33.4349975585938))");
-
-	/* filter employers */
-	record = employers->data;
-	head = &(employers->data);
-	/* keep records that match the criteria, otherwise delete them */
-	while(record != NULL) {
-		char intersects;
-
-		intersects = GEOSIntersects(record->geometry, box);
-		
-		if(intersects == 1) { /* record overlaps with box */
-			head = &(record->next);
-			record = record->next;
-		} else if(intersects == 0) { /* no overlap */
-			*head = record->next;
-			clusterGIS_Free_record(record);
-			record = *head;
-		}
-	}
-
-	/* filter parcels */
-	record = parcels->data;
+	/* remove all residential parcels */
+	parcel = parcels->data;
 	head = &(parcels->data);
-	/* keep records that match the criteria, otherwise delete them */
-	while(record != NULL) {
-		char intersects;
-
-		intersects = GEOSIntersects(record->geometry, box);
-		
-		if(intersects == 1) { /* record overlaps with box */
-			head = &(record->next);
-			record = record->next;
-		} else if(intersects == 0) { /* no overlap */
-			*head = record->next;
-			clusterGIS_Free_record(record);
-			record = *head;
+	while(parcel != NULL) {
+		if(strncmp(parcel->data[2], "R", 1) == 0) {
+			head = &(parcel->next);
+			parcel = parcel->next;
+		} else {
+			*head = parcel->next;
+			clusterGIS_Free_record(parcel);
+			parcel = *head;
 		}
 	}
 
