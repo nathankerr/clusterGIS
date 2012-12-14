@@ -7,6 +7,16 @@ h2. Dependencies
 * MPI - Uses MPI-IO for parallel file read/write
 * "GEOS":http://trac.osgeo.org/geos/ library - Provides geometric functionality
 
+h2. Building
+
+To build, run build.py in the examples and tests directories.
+
+h2. Structure
+
+* examples - example programs which use clusterGIS
+* src - the clusterGIS source
+* tests - programs used when developing clusterGIS to test some concepts, these are not unit or integration tests 
+
 h2. License
 
 The MIT License
